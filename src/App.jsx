@@ -12,14 +12,16 @@ function App() {
       {path:'/home', element: <Home/>, loader: ()=>{
         return fetch('http://localhost:5000/users');
       }},
+      {path:'/', element: <Home/>, loader: ()=>{
+        return fetch('http://localhost:5000/users');
+      }},
       {path:'/signup', element: <SignUp/>},
       {path:'/login', element: <Login/>},
-      {path:'/home', element: <Home/>},
 
     ] }]);
 
   return (
-    <div className="App">
+    <div className="App max-w-screen-xl mx-auto text-white">
       <RouterProvider router={route} />
     </div>
   );

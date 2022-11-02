@@ -10,7 +10,9 @@ import Main from "./Layout/Main";
 function App() {
   const route = createBrowserRouter([
     { path: "/", element: <Main />, children : [
-      {path:'/home', element: <Home/>},
+      {path:'/home', element: <Home/>, loader: ()=>{
+        return fetch('http://localhost:5000/users');
+      }},
       {path:'/signup', element: <SignUp/>},
       {path:'/login', element: <Login/>},
       {path:'/home', element: <Home/>},

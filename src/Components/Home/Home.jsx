@@ -8,9 +8,10 @@ const Home = () => {
 
   return (
     <div>
-      {users.map((user,idx) => (
+        <p>Home Page</p>
+      {/* {users.map((user,idx) => (
         <Users key={idx} user={user} />
-      ))}
+      ))} */}
     </div>
   );
 };

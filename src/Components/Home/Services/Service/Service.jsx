@@ -1,10 +1,9 @@
 import React from 'react';
 
 const Service = ({service}) => {
-    console.log(service);
     const { title, description, img, price} = service
     return (
-        <div className='rounded-xl p-2  relative'>
+        <div className='rounded-xl p-2 border  relative'>
             <img className='rounded-t-2xl ' src={img} alt="" />
             <p className='font-bold'>Service Name : {title}</p>
             <p>Service Description : {description.slice(0,100)}</p>

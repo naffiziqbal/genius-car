@@ -21,7 +21,7 @@ function App() {
     ] }]);
 
   return (
-    <div className="App max-w-screen-xl mx-auto text-white">
+    <div className="App max-w-screen-xl mx-auto ">
       <RouterProvider router={route} />
     </div>
   );

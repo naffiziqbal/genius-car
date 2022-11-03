@@ -1,7 +1,9 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
-import Users from "../Users/Users";
+import About from "./About/About";
+// import Users from "../Users/Users";
 import Bannar from "./Banner/Bannar";
+import Services from "./Services/Services";
 
 const Home = () => {
   const users = useLoaderData();
@@ -10,6 +12,8 @@ const Home = () => {
   return (
     <div className="p-10">
         <Bannar/>
+        <About/>
+        <Services/>
     </div>
   );
 };

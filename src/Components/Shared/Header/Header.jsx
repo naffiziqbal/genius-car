@@ -44,11 +44,11 @@ const Header = () => {
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
+              <ul>
                 <Link to={"/"}>Home</Link>
                 {menuItems}
                 <a>Item 3</a>
-              </li>
+              </ul>
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl">

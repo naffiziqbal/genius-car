@@ -1,14 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/images/login/login.svg";
+import { AuthContext } from "../../Context/Authprovider";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const { createUser, googleLogIn } = useContext(AuthContext);
   const handleSignUp = (e) => {
+
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
+  };
+  // Google Log IN
+  const handleGoogleLogin = () => {
+    googleLogIn()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate("/");
+
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div>
@@ -42,12 +64,26 @@ const SignUp = () => {
                 />
               </div>
               <div className="toggle-form">
-                <p>Already Have an Account? <Link className='text-yellow-600' to="/login">Log in</Link>  </p>
+                <p>
+                  Already Have an Account?{" "}
+                  <Link className="text-yellow-600" to="/login">
+                    Log in
+                  </Link>{" "}
+                </p>
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Sign Up</button>
               </div>
             </form>
+            <hr />
+            <div className="text-center">
+              <button
+                className="p-3 border border-slate-300 w-full hover:bg-slate-500 hover:text-white duration-300 hover:rounded-b-lg"
+                onClick={handleGoogleLogin}
+              >
+                Log in Using Google
+              </button>
+            </div>
           </div>
         </div>
       </div>

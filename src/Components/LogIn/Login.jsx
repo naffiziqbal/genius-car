@@ -1,17 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import loginImg from "../../assets/images/login/login.svg";
+import { AuthContext } from '../../Context/Authprovider';
 
 
 const Login = () => {
+  const navigate= useNavigate()
+  const {googleLogIn,login} = useContext(AuthContext)
     const handleLogIn = (e)=>{
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+        login(email, password)
+        .then(result => {
+          const user = result.user;
+          console.log(user)
+          navigate('/')
+        })
+        .catch(err => console.log(err))
+
         
-    }
+    };
+    const handleGoogleLogin = () => {
+      googleLogIn()
+        .then((result) => {
+          const user = result.user;
+          console.log(user);
+          navigate("/");
+  
+        })
+        .catch((err) => console.log(err));
+    };
     return (
         <div>
                 <div>
@@ -51,11 +72,21 @@ const Login = () => {
                 <button className="btn btn-primary">Login</button>
               </div>
             </form>
+            <hr />
+            <div className="text-center">
+              <button
+                className="p-3 border border-slate-300 w-full hover:bg-slate-500 hover:text-white duration-300 hover:rounded-b-lg"
+                onClick={handleGoogleLogin}
+              >
+                Log in Using Google
+              </button>
+              </div>
           </div>
         </div>
       </div>
     </div>
         </div>
+
     );
 };
 

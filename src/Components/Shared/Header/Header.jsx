@@ -4,30 +4,39 @@ import logo from "../../../assets/images/logo.svg";
 import { AuthContext } from "../../../Context/Authprovider";
 
 const Header = () => {
-  const {user,logOut} = useContext(AuthContext);
-  const handleLogOut =(e)=>{
-    e.preventDefault()
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogOut = (e) => {
+    e.preventDefault();
     logOut()
-    .then(()=>{alert('user Logged Out')})
-    .catch(()=>{})
-  }
+      .then(() => {
+        alert("user Logged Out");
+      })
+      .catch(() => {});
+  };
   const menuItems = (
     <>
       <li>
         <Link to={"/"}>Home</Link>
       </li>
       <li>
-        <Link to={"/signup"}>Sign Up</Link>
+        <Link to={"/orders"}>Orders</Link>
       </li>
-      <li>
-        <Link to={"/login"}>Log In </Link>
-      </li>
-      <li>
-        <Link to={'/orders'}>Orders</Link>
-      </li>
-      <li>
-        <Link onClick={handleLogOut}>Log Out</Link>
-      </li>
+      {!user?.uid ? (
+        <>
+          <li>
+            <Link to={"/signup"}>Sign Up</Link>
+          </li>
+          <li>
+            <Link to={"/login"}>Log In </Link>
+          </li>
+        </>
+      ) : (
+        <li>
+          <Link onClick={handleLogOut}>Log Out</Link>
+        </li>
+      )}
+
+   
     </>
   );
   return (
@@ -69,9 +78,15 @@ const Header = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0">{menuItems}</ul>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end"></div>
+        <div className="w-full">
+          {user?.uid ? (
+            <img className="w-12 rounded-full" src={user.photoURL}></img>
+          ) : (
+            "Guest"
+          )}
+          <p className=" text-xl ml-2 font-bold">{user?.uid && user?.displayName}</p>
         </div>
-      {user?.uid ? <img className="w-12 rounded-full" src = {user.photoURL}></img> : "p" }{user?.uid && user?.displayName}
       </div>
     </div>
   );

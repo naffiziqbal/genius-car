@@ -7,6 +7,7 @@ import Login from "./Components/LogIn/Login";
 import Main from "./Layout/Main";
 import Service from "./Components/Home/Services/Service/Service";
 import Checkout from "./Components/Checkout/Checkout";
+import Orders from "./Components/Orders/Orders";
 
 function App() {
   const route = createBrowserRouter([
@@ -18,6 +19,7 @@ function App() {
         return fetch(`http://localhost:5000/services/${params.id}`)
       }},
       {path:'/login', element: <Login/>},
+      {path:'/orders', element: <Orders/>},
 
     ] }]);
 

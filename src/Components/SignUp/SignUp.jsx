@@ -5,30 +5,41 @@ import { AuthContext } from "../../Context/Authprovider";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { createUser, googleLogIn } = useContext(AuthContext);
+  const { createUser, updateUserProfile, googleLogIn } = useContext(AuthContext);
   const handleSignUp = (e) => {
-
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
-    createUser(email, password)
+    const name = form.name.value;
+    const photoUrl= form.photoUrl.value 
+    console.log(photoUrl);
+    
+
+    createUser(email, password, name)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-        navigate("/");
+        const user = result.user
+        navigate("/")
+        handleUserInfo(name,photoUrl)
       })
+      .catch((err) => console.log(err))
+  };
+  const handleUserInfo = (name,photoUrl) => {
+    const profile = {
+      displayName: name,
+      photoURL: photoUrl,
+    }
+    updateUserProfile(profile)
+      .then(() => {})
       .catch((err) => console.log(err));
   };
+
   // Google Log IN
   const handleGoogleLogin = () => {
     googleLogIn()
       .then((result) => {
         const user = result.user;
-        console.log(user);
         navigate("/");
-
       })
       .catch((err) => console.log(err));
   };
@@ -42,6 +53,27 @@ const SignUp = () => {
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleSignUp}>
               <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="name"
+                  name="name"
+                  className="input input-bordered"
+                />
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URl</span>
+                </label>
+                <input
+                  type="url"
+                  placeholder="photoUrl"
+                  name="photoUrl"
+                  className="input input-bordered"
+                />
+                </div>
+
                 <label className="label">
                   <span className="label-text">Email</span>
                 </label>

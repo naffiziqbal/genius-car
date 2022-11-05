@@ -6,8 +6,7 @@ import Bannar from "./Banner/Bannar";
 import Services from "./Services/Services";
 
 const Home = () => {
-  const users = useLoaderData();
-  console.log(users);
+
 
   return (
     <div className="p-10">

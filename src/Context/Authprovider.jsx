@@ -1,7 +1,8 @@
-import React, { createContext, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import React, { createContext, useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import app from "../Firebase/FireBase.init";
 import { useNavigate } from "react-router-dom";
+import { current } from "daisyui/src/colors";
 const provider = new GoogleAuthProvider();
 
 export const AuthContext = createContext();
@@ -24,7 +25,15 @@ const googleLogIn =()=>{
     return signInWithPopup(auth, provider)
 }
 
-  const authInfo = {createUser, googleLogIn, login};
+useEffect(()=>{
+  const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
+    setUser(currentUser);
+    setLoading(false)
+  })
+  return ()=> unsubscribe()
+},[])
+
+  const authInfo = {user,loading,createUser, googleLogIn, login};
 
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

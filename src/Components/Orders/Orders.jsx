@@ -18,19 +18,41 @@ const Orders = () => {
     const proceed = window.confirm(" Are You Sure About Your Step?");
     if (proceed) {
       fetch(`http://localhost:5000/orders/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       })
         .then((res) => res.json())
-        .then((data) =>{
-          if(data.deletedCount > 0){
-            alert(' Order Deleted')
-            const remaining = orders.filter(odr => odr._id !== id)
+        .then((data) => {
+          if (data.deletedCount > 0) {
+            alert(" Order Deleted");
+            const remaining = orders.filter((odr) => odr._id !== id);
             console.log(remaining);
-            
+
             setOrders(remaining);
           }
         });
     }
+  };
+
+  const handleStatusUpdate = (id) => {
+    fetch(`http://localhost:5000/orders/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ status: "Approved" }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        if (data.modifiedCount > 0) {
+          const remaining = orders.filter((odr) => odr._id !== id);
+          const approving = orders.find((odr) => odr._id === id);
+          approving.status = "Approved";
+          const newOrders = [...remaining, approving];
+          setOrders(newOrders);
+        }
+       
+      });
   };
 
   return (
@@ -47,9 +69,14 @@ const Orders = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              orders.map(order => <OrderRow key={order._id} order ={order} handeleDelete= {handeleDelete}/> )
-            }
+            {orders.map((order) => (
+              <OrderRow
+                key={order._id}
+                order={order}
+                handeleDelete={handeleDelete}
+                handleStatusUpdate={handleStatusUpdate}
+              />
+            ))}
           </tbody>
         </table>
       </div>

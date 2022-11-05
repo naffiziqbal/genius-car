@@ -1,18 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/Authprovider";
 
-const OrderRow = ({ order, handeleDelete }) => {
+const OrderRow = ({ order, handeleDelete, handleStatusUpdate }) => {
   const [serviceData, setServiceData] = useState([]);
   const { user } = useContext(AuthContext);
-  const { _id, service, img, custommerName, price, serviceName } = order;
+  const { _id, service, img, custommerName, price, serviceName, status } = order;
   useEffect(() => {
     fetch(`http://localhost:5000/services/${service}`)
       .then((res) => res.json())
       .then((data) => setServiceData(data))
       .catch((err) => console.log(err));
   }, [service]);
-
-
 
   return (
     <tr>
@@ -49,7 +47,12 @@ const OrderRow = ({ order, handeleDelete }) => {
       </td>
       <td>{price}</td>
       <th>
-        <button className="btn btn-ghost btn-xs">details</button>
+        <button
+          className="btn btn-ghost btn-xs"
+          onClick={() => handleStatusUpdate(_id)}
+        >
+          {status ? status : "pending"}
+        </button>
       </th>
     </tr>
   );

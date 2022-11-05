@@ -14,6 +14,24 @@ const Orders = () => {
       .then((data) => setOrders(data))
       .catch((err) => console.log(err));
   }, [user?.email]);
+  const handeleDelete = (id) => {
+    const proceed = window.confirm(" Are You Sure About Your Step?");
+    if (proceed) {
+      fetch(`http://localhost:5000/orders/${id}`, {
+        method: "DELETE"
+      })
+        .then((res) => res.json())
+        .then((data) =>{
+          if(data.deletedCount > 0){
+            alert(' Order Deleted')
+            const remaining = orders.filter(odr => odr._id !== id)
+            console.log(remaining);
+            
+            setOrders(remaining);
+          }
+        });
+    }
+  };
 
   return (
     <div>
@@ -30,7 +48,7 @@ const Orders = () => {
           </thead>
           <tbody>
             {
-              orders.map(order => <OrderRow key={order._id} order ={order}/> )
+              orders.map(order => <OrderRow key={order._id} order ={order} handeleDelete= {handeleDelete}/> )
             }
           </tbody>
         </table>

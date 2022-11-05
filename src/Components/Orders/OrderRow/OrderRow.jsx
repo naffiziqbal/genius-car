@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/Authprovider";
 
-const OrderRow = ({ order }) => {
+const OrderRow = ({ order, handeleDelete }) => {
   const [serviceData, setServiceData] = useState([]);
   const { user } = useContext(AuthContext);
   const { _id, service, img, custommerName, price, serviceName } = order;
@@ -12,16 +12,7 @@ const OrderRow = ({ order }) => {
       .catch((err) => console.log(err));
   }, [service]);
 
-  const handeleDelete = (id) => {
-    const proceed = window.confirm(" Are You Sure About Your Step?");
-    if (proceed) {
-      fetch(`http://localhost:5000/orders/${id}`, {
-        method: "DELETE"
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-    }
-  };
+
 
   return (
     <tr>
